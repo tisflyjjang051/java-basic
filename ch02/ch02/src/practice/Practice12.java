@@ -11,6 +11,7 @@ public class Practice12 {
     String operator = scanner.next();
     int num02 = scanner.nextInt();
     int result = 0;
+    /*
     if (operator.equals("+")) {
       result = num01 + num02;
     } else if (operator.equals("-")) {
@@ -19,6 +20,23 @@ public class Practice12 {
       result = num01 * num02;
     } else if (operator.equals("/")) {
       result = num01 / num02;
+    }
+     */
+    switch (operator) {
+      case "+":
+        result = num01 + num02;
+        break;
+      case "-":
+        result = num01 - num02;
+        break;
+      case "*":
+        result = num01 * num02;
+        break;
+      case "/":
+        result = num01 / num02;
+        break;
+      default:
+        System.out.println("사칙연산자가 아닙니다.");
     }
     System.out.println(num01 + operator + num02 + "=" + result);
   }
