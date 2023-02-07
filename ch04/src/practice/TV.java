@@ -6,7 +6,12 @@ public class TV {
   private int year;
   private int size;
 
+  public int a;
+  int b;
+
   // getter/ setter
+  public TV() {}
+
   public TV(String maker, int year, int size) {
     this.maker = maker;
     this.year = year;

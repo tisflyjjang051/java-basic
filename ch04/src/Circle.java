@@ -14,19 +14,17 @@ public class Circle {
     System.out.println("나는 Circle");
   }
 
-  public Circle(int _radius) {
-    radius = _radius;
+  public Circle(int radius) {
+    this.radius = radius;
   }
 
-  public Circle(String _name, int _radius) {
-    name = _name;
-    radius = _radius;
+  public Circle(String name, int radius) {
+    this.name = name;
+    this.radius = radius;
   }
 
   // 메서드
   public double getArea() {
     return 3.14 * radius * radius;
   }
-
-  public void destroy() {}
 }
