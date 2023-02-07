@@ -5,9 +5,11 @@ public class ColorPointEx {
     point.set(10, 10);
     point.showPoint();
 
-    ColorPoint colorPoint = new ColorPoint();
-    colorPoint.set(20, 20);
-    colorPoint.setColor("red");
+    //type casting ColorPoint  up casting   down casting
+
+    ColorPoint colorPoint = new ColorPoint(10, 100, "blue");
+    // colorPoint.set(20, 20);
+    // colorPoint.setColor("red");
     colorPoint.showColorPoint();
   }
 }
