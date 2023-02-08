@@ -22,8 +22,10 @@ public class Practice09 {
     }
     System.out.println("capacity===" + ss.capacity());
     System.out.println("length===" + ss.length());
-    for (int i = 0; i < ss.length(); i++) {
-      System.out.print(ss.pop() + "===");
+    int total02 = ss.length();
+    for (int i = 0; i < total02; i++) {
+      System.out.println(ss.length());
+      System.out.print(ss.pop());
     }
   }
 }

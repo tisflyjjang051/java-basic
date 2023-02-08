@@ -7,11 +7,11 @@ public class StringStack implements Stack {
 
   public StringStack(int capacity) {
     element = new String[capacity];
-    end = 0;
+    end = -1;
   }
 
   public int length() {
-    return end - 1;
+    return end + 1;
   }
 
   public int capacity() {
@@ -19,17 +19,21 @@ public class StringStack implements Stack {
   }
 
   public String pop() {
-    String popStr = element[end];
-    end--;
-    return popStr;
+    if (end == -1) {
+      return null;
+    } else {
+      String popStr = element[end];
+      end--;
+      return popStr;
+    }
   }
 
   public boolean push(String val) {
-    if (end == element.length) {
+    if (end == element.length - 1) {
       return false;
     } else {
+      end++; //-1
       element[end] = val;
-      end++;
       System.out.println("end===" + end);
       return true;
     }
