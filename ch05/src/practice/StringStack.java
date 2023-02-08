@@ -11,15 +11,17 @@ public class StringStack implements Stack {
   }
 
   public int length() {
-    return 1;
+    return end - 1;
   }
 
   public int capacity() {
-    return 1;
+    return element.length;
   }
 
   public String pop() {
-    return "aaa";
+    String popStr = element[end];
+    end--;
+    return popStr;
   }
 
   public boolean push(String val) {
@@ -28,6 +30,7 @@ public class StringStack implements Stack {
     } else {
       element[end] = val;
       end++;
+      System.out.println("end===" + end);
       return true;
     }
   }
