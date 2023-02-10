@@ -30,6 +30,7 @@ class GStack<T> {
 public class GenericStackEx {
 
   public static void main(String[] args) {
+    // 나중에 연차 쌓이면 쓰세요...
     GStack<String> stringStack = new GStack<>();
     stringStack.push("장성호");
     stringStack.push("장동건");
