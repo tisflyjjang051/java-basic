@@ -1,6 +1,7 @@
 package practice;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Scanner;
 import java.util.StringTokenizer;
 
@@ -87,6 +88,18 @@ class StudentManager {
       }
     }
   }
+
+  public void showAll() {
+    Iterator<Student> it = studentList.iterator();
+    while (it.hasNext()) {
+      Student student = it.next();
+      System.out.println("==============");
+      System.out.println("이름 : " + student.getName());
+      System.out.println("학번 : " + student.getId());
+      System.out.println("학과 : " + student.getDepartment());
+      System.out.println("학점 : " + student.getScore());
+    }
+  }
 }
 
 public class Practice05 {
@@ -94,6 +107,7 @@ public class Practice05 {
   public static void main(String[] args) {
     StudentManager sm = new StudentManager();
     sm.insertStudent();
+    sm.showAll();
     sm.showInfo();
   }
 }
