@@ -50,16 +50,14 @@ class WordQuiz {
     vec.add(new Word("statue", "조각상"));
   }
 
-  // 메서드(함수)를 정의하는 이유....
-  // 기능을 단순화  자판기
-
+  // 보기 만들기
   private int makeExample(int example[], int answerIndex) {
-    //배열하나 만들어서 집어넣기 , 정답도 넣어놓기....
-    int nums[] = { -1, -1, -1, -1 }; // 배열을 생성하면서 값을 넘기는 방법
+    // 중복 방지
+    int nums[] = { -1, -1, -1, -1 };
     int index;
     for (int i = 0; i < 4; i++) {
       while (true) {
-        index = (int) (Math.random() * vec.size()); // 3,5,7,8
+        index = (int) (Math.random() * vec.size()); // 10
         // 배열안에는 정다없어야만 함, 중복도 없어야 함....
         if (!(exist(nums, index) || index == answerIndex)) {
           nums[i] = index;
@@ -84,6 +82,9 @@ class WordQuiz {
 
   //exist(nums[0,1,2,3],2)
   public void run() {
+    //int test[] = { 1, 2, 3, 4 };
+    //System.out.println(exist(test, 13));
+
     // 문제 네개를 끄집어 내기 (중복없이);
     Scanner scanner = new Scanner(System.in);
     System.out.println(
@@ -91,16 +92,26 @@ class WordQuiz {
     );
     System.out.println("현재 " + vec.size() + "개의 단어가 있습니다.");
     while (true) {
-      int answerIndex = (int) (Math.random() * vec.size()); //0~16 3
+      int answerIndex = (int) (Math.random() * vec.size()); //0~16   8
       String eng = vec.get(answerIndex).getEng(); //human
-
-      int example[] = new int[4];
-      makeExample(example, answerIndex); // 문제만들기.... 정답 꽂아 넣기...
+      int example[] = new int[4]; // {0,0,0,0}
+      int answerNum = makeExample(example, answerIndex); // 문제만들기.... 정답 꽂아 넣기...    {3,6,7,12}
+      example[answerNum] = answerIndex;
       System.out.println(eng + "?");
       for (int i = 0; i < example.length; i++) {
         System.out.print(
           "(" + (i + 1) + ")" + vec.get(example[i]).getKor() + "   "
         );
+      }
+      int input = scanner.nextInt();
+      if (input == -1) {
+        break;
+      } else {
+        if (input - 1 == answerNum) {
+          System.out.println("정답");
+        } else {
+          System.out.println("땡");
+        }
       }
     }
   }
