@@ -1,4 +1,4 @@
-package p;
+package practice;
 
 import java.util.Scanner;
 import java.util.Vector;
@@ -24,10 +24,13 @@ class Word {
 
 class WordQuiz {
 
+  private String title;
   private Vector<Word> vec = new Vector<>();
   Scanner sc = new Scanner(System.in);
 
-  public WordQuiz() {
+  public WordQuiz(String title) {
+    this.title = title;
+
     vec.add(new Word("love", "사랑"));
     vec.add(new Word("animal", "동물"));
     vec.add(new Word("emotion", "감정"));
@@ -47,63 +50,58 @@ class WordQuiz {
     vec.add(new Word("statue", "조각상"));
   }
 
-  public void gameInit() {
+  // 메서드(함수)를 정의하는 이유....
+  // 기능을 단순화  자판기
+
+  private int makeExample(int example[], int answerIndex) {
+    //배열하나 만들어서 집어넣기 , 정답도 넣어놓기....
+    int nums[] = { -1, -1, -1, -1 }; // 배열을 생성하면서 값을 넘기는 방법
+    int index;
+    for (int i = 0; i < 4; i++) {
+      while (true) {
+        index = (int) (Math.random() * vec.size()); // 3,5,7,8
+        // 배열안에는 정다없어야만 함, 중복도 없어야 함....
+        if (!(exist(nums, index) || index == answerIndex)) {
+          nums[i] = index;
+          break;
+        }
+      }
+    }
+    for (int i = 0; i < nums.length; i++) {
+      example[i] = nums[i];
+    }
+    return (int) (Math.random() * nums.length);
+  }
+
+  private boolean exist(int nums[], int index) {
+    for (int i = 0; i < nums.length; i++) {
+      if (nums[i] == index) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  //exist(nums[0,1,2,3],2)
+  public void run() {
+    // 문제 네개를 끄집어 내기 (중복없이);
+    Scanner scanner = new Scanner(System.in);
     System.out.println(
-      "명품 영어의 단어 테스트 시작 \n현재 17개의 단어가 들어있습니다. -1 입력 시 종료.\n"
+      "영어 단어 맞추기 퀴즈를 시작합니다. -1을 누르면 종료합니다."
     );
-
+    System.out.println("현재 " + vec.size() + "개의 단어가 있습니다.");
     while (true) {
-      // 난수가 중복없이 4개 저장되는 정수 배열 (1-17 중에서 4개 골라서)
-      int[] seventeen = new int[17];
-      for (int i = 0; i < 17; i++) {
-        seventeen[i] = i;
+      int answerIndex = (int) (Math.random() * vec.size()); //0~16 3
+      String eng = vec.get(answerIndex).getEng(); //human
+
+      int example[] = new int[4];
+      makeExample(example, answerIndex); // 문제만들기.... 정답 꽂아 넣기...
+      System.out.println(eng + "?");
+      for (int i = 0; i < example.length; i++) {
+        System.out.print(
+          "(" + (i + 1) + ")" + vec.get(example[i]).getKor() + "   "
+        );
       }
-
-      int[] select = new int[4];
-      for (int i = 0; i < 4; i++) {
-        select[i] = seventeen[(int) (Math.random() * 17)];
-        for (int j = 0; j < i; j++) {
-          if (select[i] == select[j]) {
-            i--;
-          }
-        }
-      }
-
-      // for (int item : select) {
-      //   System.out.print(item + ", ");
-      // }
-
-      int randomSelect = (int) (Math.random() * 4);
-      int answerSelect = select[randomSelect];
-      Word wordAnswer = vec.get(answerSelect);
-
-      System.out.println("<<<< " + wordAnswer.getEng() + " >>>>");
-
-      for (int i = 0; i < 4; i++) {
-        if (i == randomSelect) {
-          System.out.print("(" + (i + 1) + ")" + wordAnswer.getKor() + " ");
-        } else {
-          Word wordRandom = vec.get(select[i]);
-          System.out.print("(" + (i + 1) + ")" + wordRandom.getKor() + " ");
-        }
-      }
-
-      System.out.print(" : >>>> ");
-      int selectAnswer = sc.nextInt();
-
-      if (selectAnswer == -1) {
-        break;
-      }
-
-      Word wordResult = vec.get(select[selectAnswer - 1]);
-
-      // prettier-ignore
-      if (wordResult.getEng().equals(wordAnswer.getEng())) {
-        System.out.println("Excellent!!");
-      } else {
-        System.out.println("No..........");
-      }
-      System.out.println();
     }
   }
 }
@@ -111,7 +109,7 @@ class WordQuiz {
 public class OpenChallenge07 {
 
   public static void main(String[] args) {
-    WordQuiz wq = new WordQuiz();
-    wq.gameInit();
+    WordQuiz wordQuiz = new WordQuiz("명품영어단어 퀴즈");
+    wordQuiz.run();
   }
 }
