@@ -15,7 +15,6 @@ class PhoneExplorer {
     try {
       Scanner scanner = new Scanner(new FileReader(new File(fileName)));
       while (scanner.hasNext()) {
-        System.out.println(scanner.nextLine());
         String name = scanner.next();
         String tel = scanner.next();
         phoneMap.put(name, tel);
