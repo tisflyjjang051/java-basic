@@ -6,17 +6,17 @@ import java.io.FileReader;
 import java.util.Scanner;
 import java.util.Vector;
 
-public class Practice11 {
+class WordSearch {
 
-  public static void main(String[] args) {
-    Vector<String> wordlst = new Vector<String>();
+  private Vector<String> wordList = new Vector<String>();
 
+  private void wordRead() {
     try {
       File file = new File("c:\\Temp\\words.txt");
       Scanner readWord = new Scanner(new FileReader(file));
       while (readWord.hasNext()) {
         String line = readWord.nextLine();
-        wordlst.add(line);
+        wordList.add(line);
       }
       System.out.println(
         "프로젝트 폴더 밑의 " + file.getName() + " 파일을 읽었습니다...."
@@ -25,6 +25,9 @@ public class Practice11 {
       // TODO Auto-generated catch block
       e.printStackTrace();
     }
+  }
+
+  private void wordSearching() {
     Scanner scanner = new Scanner(System.in);
     int cnt = 0;
     while (true) {
@@ -35,9 +38,9 @@ public class Practice11 {
 
         break;
       }
-      for (int i = 0; i < wordlst.size(); i++) {
-        if (wordlst.get(i).startsWith(Input)) {
-          System.out.println(wordlst.get(i));
+      for (int i = 0; i < wordList.size(); i++) {
+        if (wordList.get(i).startsWith(Input)) {
+          System.out.println(wordList.get(i));
           cnt += 1;
         }
       }
@@ -46,5 +49,18 @@ public class Practice11 {
       }
     }
     scanner.close();
+  }
+
+  public void run() {
+    wordRead();
+    wordSearching();
+  }
+}
+
+public class Practice11 {
+
+  public static void main(String[] args) {
+    WordSearch wordSearch = new WordSearch();
+    wordSearch.run();
   }
 }
