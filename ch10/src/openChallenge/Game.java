@@ -27,6 +27,11 @@ public class Game extends JFrame {
       label[i].setFont(new Font("Arial", Font.BOLD, 36));
       contentPane.add(label[i]);
     }
+    resultLabel.setSize(500, 50);
+    resultLabel.setLocation(0, 200);
+    resultLabel.setHorizontalAlignment(JLabel.CENTER);
+    resultLabel.setFont(new Font("돋움", Font.BOLD, 24));
+    contentPane.add(resultLabel);
     this.setSize(500, 300);
     this.setVisible(true);
   }
