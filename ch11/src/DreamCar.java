@@ -19,8 +19,26 @@ public class DreamCar extends JFrame {
     title.setHorizontalAlignment(JLabel.CENTER);
 
     JPanel mainPanel = new JPanel();
+    JPanel leftPanel = new JPanel();
+    JPanel rightPanel = new JPanel();
+    JLabel leftTitleLabel = new JLabel("포르쉐");
+    JLabel rightTitleLabel = new JLabel("람보르기니");
     JLabel leftLabel = new JLabel(new ImageIcon("ch11/images/car/car01.png"));
     JLabel rightLabel = new JLabel(new ImageIcon("ch11/images/car/car02.png"));
+    leftTitleLabel.setHorizontalAlignment(JLabel.CENTER);
+    rightTitleLabel.setHorizontalAlignment(JLabel.CENTER);
+
+    leftPanel.setLayout(new BorderLayout());
+    rightPanel.setLayout(new BorderLayout());
+    leftPanel.add(leftLabel, BorderLayout.NORTH);
+    leftPanel.add(leftTitleLabel, BorderLayout.SOUTH);
+
+    rightPanel.add(rightLabel, BorderLayout.NORTH);
+    rightPanel.add(rightTitleLabel, BorderLayout.SOUTH);
+
+    mainPanel.add(leftPanel);
+    mainPanel.add(rightPanel);
+
     String carList[] = {
       "car01.png",
       "car02.png",
@@ -39,13 +57,39 @@ public class DreamCar extends JFrame {
       "car15.png",
       "car16.png",
     };
+    String carTitle[] = {
+      "포르쉐",
+      "람보르기니",
+      "아이오닉",
+      "빠른차",
+      "더 빠른차",
+      "열라 빠른차",
+      "진짜 빠른 차",
+      "JAVA",
+      "HELLO",
+      "우르스",
+      "모닝",
+      "쉐보레",
+      "g80",
+      "gv70",
+      "마이카",
+      "너의 카",
+    };
+
     leftLabel.addMouseListener(
       new MouseAdapter() {
         public void mouseClicked(MouseEvent e) {
           rightLabel.setIcon(
             new ImageIcon("ch11/images/car/" + carList[current])
           );
+          rightTitleLabel.setText(carTitle[current]);
+
           current++;
+          if (current >= 16) {
+            title.setText("당신의 드림카는 " + leftTitleLabel.getText());
+            rightPanel.setVisible(false);
+            leftLabel.removeMouseListener(this);
+          }
         }
       }
     );
@@ -55,13 +99,16 @@ public class DreamCar extends JFrame {
           leftLabel.setIcon(
             new ImageIcon("ch11/images/car/" + carList[current])
           );
+          leftTitleLabel.setText(carTitle[current]);
           current++;
+          if (current >= 16) {
+            leftPanel.setVisible(false);
+            rightLabel.removeMouseListener(this);
+            title.setText("당신의 드림카는 " + rightTitleLabel.getText());
+          }
         }
       }
     );
-
-    mainPanel.add(leftLabel);
-    mainPanel.add(rightLabel);
 
     contentPane.add(title, BorderLayout.NORTH);
     contentPane.add(mainPanel, BorderLayout.CENTER);
