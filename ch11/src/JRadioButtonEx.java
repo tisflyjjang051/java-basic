@@ -2,20 +2,22 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 
-public class JCheckBoxEx extends JFrame {
+public class JRadioButtonEx extends JFrame {
 
-  private JCheckBox fruits[] = new JCheckBox[3];
+  private JRadioButton fruits[] = new JRadioButton[3];
   private String fruitNames[] = { "사과", "딸기", "체리" };
   private JLabel sumLabel = new JLabel("합계 : 0");
 
-  public JCheckBoxEx() {
+  public JRadioButtonEx() {
     JLabel title = new JLabel("사과 1000, 딸기 8000, 체리 10000");
     Container contentPane = this.getContentPane();
     contentPane.setLayout(new FlowLayout());
     contentPane.add(title);
     MyItemListener myItemListener = new MyItemListener();
+    ButtonGroup btnGroup = new ButtonGroup();
     for (int i = 0; i < 3; i++) {
-      fruits[i] = new JCheckBox(fruitNames[i]);
+      fruits[i] = new JRadioButton(fruitNames[i]);
+      btnGroup.add(fruits[i]);
       contentPane.add(fruits[i]);
       fruits[i].addItemListener(myItemListener);
     }
@@ -26,33 +28,25 @@ public class JCheckBoxEx extends JFrame {
 
   class MyItemListener implements ItemListener {
 
-    private int sum = 0;
-
     @Override
     public void itemStateChanged(ItemEvent e) {
       if (e.getStateChange() == ItemEvent.SELECTED) {
         if (e.getItem() == fruits[0]) {
-          sum += 1000;
+          System.out.println("radio01");
         } else if (e.getItem() == fruits[1]) {
-          sum += 8000;
+          System.out.println("radio02");
         } else if (e.getItem() == fruits[2]) {
-          sum += 10000;
+          System.out.println("radio03");
         }
-        System.out.println(sum);
       } else {
-        if (e.getItem() == fruits[0]) {
-          sum -= 1000;
-        } else if (e.getItem() == fruits[1]) {
-          sum -= 8000;
-        } else if (e.getItem() == fruits[2]) {
-          sum -= 10000;
-        }
+        if (e.getItem() == fruits[0]) {} else if (
+          e.getItem() == fruits[1]
+        ) {} else if (e.getItem() == fruits[2]) {}
       }
-      sumLabel.setText("합계 : " + sum + "원");
     }
   }
 
   public static void main(String[] args) {
-    new JCheckBoxEx();
+    new JRadioButtonEx();
   }
 }
