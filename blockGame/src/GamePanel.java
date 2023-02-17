@@ -74,6 +74,7 @@ public class GamePanel extends JPanel implements Runnable {
         } else if (blocks[i][j].color == 4) {
           g.setColor(Color.ORANGE);
         }
+
         g.fillRect(
           blocks[i][j].x,
           blocks[i][j].y,
@@ -92,9 +93,9 @@ public class GamePanel extends JPanel implements Runnable {
       } catch (InterruptedException e) {
         e.printStackTrace();
       }
-      System.out.println("aa");
       repaint();
       paddleMove();
+      ballMove();
     }
   }
 
@@ -103,6 +104,41 @@ public class GamePanel extends JPanel implements Runnable {
       paddle.x -= 10;
     } else if (paddle.isRight) {
       paddle.x += 10;
+    }
+  }
+
+  public void ballMove() {
+    if (ball.x >= 618) {
+      ball.isLeft = true;
+      ball.isRight = false;
+    } else if (ball.x <= 0) {
+      ball.isLeft = false;
+      ball.isRight = true;
+    }
+    if (ball.y >= 900) {
+      ball.isUp = true;
+      ball.isDown = false;
+    } else if (ball.y <= ((30 + GAP) * 5 + 55)) {
+      ball.isUp = false;
+      ball.isDown = true;
+    }
+
+    if (
+      ball.y >= paddle.y - 10 &&
+      (ball.x >= paddle.x && ball.x <= paddle.x + paddle.width)
+    ) {
+      ball.isUp = true;
+      ball.isDown = false;
+    }
+    if (ball.isUp) {
+      ball.y -= 5;
+    } else if (ball.isDown) {
+      ball.y += 5;
+    }
+    if (ball.isLeft) {
+      ball.x -= 5;
+    } else if (ball.isRight) {
+      ball.x += 5;
     }
   }
 }
