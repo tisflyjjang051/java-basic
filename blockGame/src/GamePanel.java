@@ -2,17 +2,20 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 
-public class GamePanel extends JPanel {
+public class GamePanel extends JPanel implements Runnable {
 
   static int GAP = 2;
   public Paddle paddle;
   public Ball ball;
   public Block blocks[][];
+  public Thread th;
 
   public GamePanel() {
-    System.out.println("game panel 생정자");
     this.setBackground(Color.BLACK);
     this.setPreferredSize(new Dimension(60 * 10 + GAP * 9, 900));
+
+    th = new Thread(this);
+    th.start();
     paddle = new Paddle();
     ball = new Ball();
     blocks = new Block[5][10];
@@ -26,6 +29,31 @@ public class GamePanel extends JPanel {
         blocks[i][j].color = i;
       }
     }
+    this.addKeyListener(
+        new KeyListener() {
+          @Override
+          public void keyTyped(KeyEvent e) {}
+
+          @Override
+          public void keyPressed(KeyEvent e) {
+            if (e.getKeyCode() == KeyEvent.VK_LEFT) {
+              paddle.isLeft = true;
+              paddle.isRight = false;
+            } else if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
+              paddle.isLeft = false;
+              paddle.isRight = true;
+            }
+          }
+
+          @Override
+          public void keyReleased(KeyEvent e) {
+            paddle.isLeft = false;
+            paddle.isRight = false;
+          }
+        }
+      );
+    this.setFocusable(true);
+    this.requestFocus();
   }
 
   public void paintComponent(Graphics g) {
@@ -53,6 +81,28 @@ public class GamePanel extends JPanel {
           blocks[i][j].height
         );
       }
+    }
+  }
+
+  @Override
+  public void run() {
+    while (true) {
+      try {
+        Thread.sleep(20);
+      } catch (InterruptedException e) {
+        e.printStackTrace();
+      }
+      System.out.println("aa");
+      repaint();
+      paddleMove();
+    }
+  }
+
+  public void paddleMove() {
+    if (paddle.isLeft) {
+      paddle.x -= 10;
+    } else if (paddle.isRight) {
+      paddle.x += 10;
     }
   }
 }
