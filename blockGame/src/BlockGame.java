@@ -9,6 +9,7 @@ public class BlockGame extends JFrame {
     this.setContentPane(gamePanel);
     this.setVisible(true);
     this.pack();
+    this.setResizable(false);
   }
 
   public static void main(String[] args) {
