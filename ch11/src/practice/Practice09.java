@@ -13,6 +13,8 @@ public class Practice09 extends JFrame {
   JLabel mine;
   JLabel judge;
   JLabel[] imgLabel = new JLabel[3];
+  ImageIcon mineImg;
+  ImageIcon comImg;
 
   String gameImage[] = {
     "ch11/images/rock.png",
@@ -25,61 +27,46 @@ public class Practice09 extends JFrame {
 
     public void mouseClicked(MouseEvent e) {
       JLabel jl = (JLabel) e.getSource();
+
       int randomNum = (int) (Math.random() * 3);
 
-      //mine = jl;
-      computer = new JLabel(new ImageIcon(gameImage[randomNum]));
+      comImg = new ImageIcon(gameImage[randomNum]);
+      computer.setIcon(comImg);
 
       if (jl == imgLabel[0]) {
         System.out.println("바위" + randomNum);
-        mine = new JLabel(new ImageIcon(gameImage[0]));
+        mineImg = new ImageIcon(gameImage[0]);
+        mine.setIcon(mineImg);
         if (randomNum == 0) {
-          //System.out.println("비김");
-          judge = new JLabel(judgeMsg[2]);
+          judge.setText(judgeMsg[2]);
         } else if (randomNum == 1) {
-          //System.out.println("이김");
-          judge = new JLabel(judgeMsg[0]);
+          judge.setText(judgeMsg[0]);
         } else if (randomNum == 2) {
-          //System.out.println("짐");
-          judge = new JLabel(judgeMsg[1]);
+          judge.setText(judgeMsg[1]);
         }
       } else if (jl == imgLabel[1]) {
         System.out.println("가위" + randomNum);
-        mine = new JLabel(new ImageIcon(gameImage[1]));
+        mineImg = new ImageIcon(gameImage[1]);
+        mine.setIcon(mineImg);
         if (randomNum == 0) {
-          //System.out.println("짐");
-          judge = new JLabel(judgeMsg[1]);
+          judge.setText(judgeMsg[1]);
         } else if (randomNum == 1) {
-          //System.out.println("비김");
-          judge = new JLabel(judgeMsg[2]);
+          judge.setText(judgeMsg[2]);
         } else if (randomNum == 2) {
-          //System.out.println("이김");
-          judge = new JLabel(judgeMsg[0]);
+          judge.setText(judgeMsg[0]);
         }
       } else if (jl == imgLabel[2]) {
         System.out.println("보" + randomNum);
-        mine = new JLabel(new ImageIcon(gameImage[2]));
+        mineImg = new ImageIcon(gameImage[2]);
+        mine.setIcon(mineImg);
         if (randomNum == 0) {
-          //System.out.println("이김");
-          judge = new JLabel(judgeMsg[0]);
+          judge.setText(judgeMsg[0]);
         } else if (randomNum == 1) {
-          //System.out.println("짐");
-          judge = new JLabel(judgeMsg[1]);
+          judge.setText(judgeMsg[1]);
         } else if (randomNum == 2) {
-          //System.out.println("비김");
-          judge = new JLabel(judgeMsg[2]);
+          judge.setText(judgeMsg[2]);
         }
       }
-
-      fights.removeAll();
-
-      fights.add(mine);
-      fights.add(computer);
-      fights.add(judge);
-
-      contentPane.add(fights, BorderLayout.CENTER);
-      setSize(800, 600);
-      setVisible(true);
     }
 
     public void mouseEntered(MouseEvent e) {}
@@ -104,10 +91,20 @@ public class Practice09 extends JFrame {
       imgLabel[i].addMouseListener(new MyMouseListener());
     }
 
+    mineImg = new ImageIcon(gameImage[0]);
+    comImg = new ImageIcon(gameImage[0]);
+    mine = new JLabel(mineImg);
+    computer = new JLabel(comImg);
+    judge = new JLabel("Start ↑");
+
+    fights.add(mine);
+    fights.add(computer);
+    fights.add(judge);
+
     contentPane.add(options, BorderLayout.NORTH);
     contentPane.add(fights, BorderLayout.CENTER);
 
-    this.setSize(800, 600);
+    this.setSize(800, 500);
     this.setVisible(true);
   }
 
