@@ -9,8 +9,8 @@ public class Ball {
   public boolean isRight;
 
   public Ball() {
-    this.x = 0;
-    this.y = 0;
+    this.x = 300;
+    this.y = 300;
     this.width = 10;
     this.height = 10;
     this.speed = 10;
