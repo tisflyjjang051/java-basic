@@ -10,6 +10,8 @@ public class GamePanel extends JPanel implements Runnable {
   public Block blocks[][];
   public Thread th;
 
+  public int score = 0;
+
   public GamePanel() {
     this.setBackground(Color.BLACK);
     this.setPreferredSize(new Dimension(60 * 10 + GAP * 9, 900));
@@ -61,6 +63,8 @@ public class GamePanel extends JPanel implements Runnable {
     g.setColor(Color.WHITE);
     g.fillRect(paddle.x, paddle.y, paddle.width, paddle.height);
     g.fillOval(ball.x, ball.y, ball.width, ball.height);
+    g.setFont(new Font("맑은 고닥", Font.BOLD, 18));
+    g.drawString("SCORE : " + score, 500, 40);
     for (int i = 0; i < 5; i++) {
       for (int j = 0; j < 10; j++) {
         if (blocks[i][j].isHide) {
@@ -107,14 +111,68 @@ public class GamePanel extends JPanel implements Runnable {
       for (int j = 0; j < 10; j++) {
         Block block = blocks[i][j];
         if (!block.isHide) {
-          if (
-            hitObject(
-              new Rectangle(ball.x, ball.y, ball.width, ball.height),
-              new Rectangle(block.x, block.y, block.width, block.height)
-            )
-          ) {
-            //System.out.println("충돌");
-            block.isHide = true;
+          if (ball.isUp) {
+            if (
+              hitObject(
+                new Rectangle(ball.x, ball.y, ball.width, ball.height),
+                new Rectangle(block.x, block.y, block.width, block.height)
+              )
+            ) {
+              block.isHide = true;
+              ball.isUp = false;
+              ball.isDown = true;
+              score += 10;
+            }
+          } else if (ball.isDown) {
+            if (
+              hitObject(
+                new Rectangle(ball.x, ball.y, ball.width, ball.height),
+                new Rectangle(block.x, block.y, block.width, block.height)
+              )
+            ) {
+              block.isHide = true;
+              ball.isUp = true;
+              ball.isDown = false;
+              score += 10;
+            }
+          } else if (ball.isLeft) {
+            if (
+              hitObject(
+                new Rectangle(ball.x, ball.y, ball.width, ball.height),
+                new Rectangle(block.x, block.y, block.width, block.height)
+              )
+            ) {
+              if (ball.isUp) {
+                ball.isUp = false;
+                ball.isDown = true;
+              } else if (ball.isDown) {
+                ball.isUp = true;
+                ball.isDown = false;
+              }
+              block.isHide = true;
+              ball.isRight = true;
+              ball.isLeft = false;
+              score += 10;
+            } else if (ball.isRight) {
+              if (
+                hitObject(
+                  new Rectangle(ball.x, ball.y, ball.width, ball.height),
+                  new Rectangle(block.x, block.y, block.width, block.height)
+                )
+              ) {
+                if (ball.isUp) {
+                  ball.isUp = false;
+                  ball.isDown = true;
+                } else if (ball.isDown) {
+                  ball.isUp = true;
+                  ball.isDown = false;
+                }
+                block.isHide = true;
+                ball.isRight = false;
+                ball.isLeft = true;
+                score += 10;
+              }
+            }
           }
         }
       }
@@ -146,14 +204,29 @@ public class GamePanel extends JPanel implements Runnable {
     }
 
     if (ball.isUp) {
-      ball.y -= 5;
+      ball.y -= 10;
     } else if (ball.isDown) {
-      ball.y += 5;
+      ball.y += 10;
+      // 여기다가 패들과의 충돌
+      if (
+        hitObject(
+          new Rectangle(ball.x, ball.y, ball.width, ball.height),
+          new Rectangle(paddle.x, paddle.y, paddle.width, paddle.height)
+        )
+      ) {
+        ball.isUp = true;
+        ball.isDown = false;
+      } else {
+        if (ball.y > paddle.y + paddle.height) {
+          System.out.println("패들 벗어남");
+          //공이 사라져야 함....
+        }
+      }
     }
     if (ball.isLeft) {
-      ball.x -= 5;
+      ball.x -= 10;
     } else if (ball.isRight) {
-      ball.x += 5;
+      ball.x += 10;
     }
   }
 
