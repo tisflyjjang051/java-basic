@@ -6,6 +6,7 @@ public class GamePanel extends JPanel implements Runnable {
 
   static int GAP = 2;
   public Paddle paddle;
+  public boolean isEnd = false;
   public Ball ball;
   public Block blocks[][];
   public Thread th;
@@ -71,35 +72,46 @@ public class GamePanel extends JPanel implements Runnable {
   // space를 입력받아서 누르면 다시 볼이 움직이기 시작....
   public void paintComponent(Graphics g) {
     super.paintComponent(g);
-    g.setColor(Color.WHITE);
-    g.fillRect(paddle.x, paddle.y, paddle.width, paddle.height);
-    if (!ball.isHide) {
-      g.fillOval(ball.x, ball.y, ball.width, ball.height);
-    }
-    g.setFont(new Font("맑은 고닥", Font.BOLD, 18));
-    g.drawString("SCORE : " + score, 500, 40);
-    for (int i = 0; i < 5; i++) {
-      for (int j = 0; j < 10; j++) {
-        if (blocks[i][j].isHide) {
-          continue;
+    if (isEnd) {
+      g.setColor(Color.BLACK);
+      g.drawRect(0, 0, 618, 900);
+      g.setColor(Color.WHITE);
+      g.setFont(new Font("맑은 고닥", Font.BOLD, 32));
+      g.drawString("GAME OVER ", 40, 450);
+      g.setFont(new Font("맑은 고닥", Font.BOLD, 24));
+      g.drawString("PRESS R GAME RESTART ", 40, 550);
+    } else {
+      g.setColor(Color.WHITE);
+      g.fillRect(paddle.x, paddle.y, paddle.width, paddle.height);
+      if (!ball.isHide) {
+        g.fillOval(ball.x, ball.y, ball.width, ball.height);
+      }
+      g.setFont(new Font("맑은 고닥", Font.BOLD, 18));
+      g.drawString("SCORE : " + score, 500, 30);
+      g.drawString("BALL COUNT : " + ball.count, 40, 30);
+      for (int i = 0; i < 5; i++) {
+        for (int j = 0; j < 10; j++) {
+          if (blocks[i][j].isHide) {
+            continue;
+          }
+          if (blocks[i][j].color == 0) {
+            g.setColor(Color.BLUE);
+          } else if (blocks[i][j].color == 1) {
+            g.setColor(Color.GREEN);
+          } else if (blocks[i][j].color == 2) {
+            g.setColor(Color.MAGENTA);
+          } else if (blocks[i][j].color == 3) {
+            g.setColor(Color.YELLOW);
+          } else if (blocks[i][j].color == 4) {
+            g.setColor(Color.ORANGE);
+          }
+          g.fillRect(
+            blocks[i][j].x,
+            blocks[i][j].y,
+            blocks[i][j].width,
+            blocks[i][j].height
+          );
         }
-        if (blocks[i][j].color == 0) {
-          g.setColor(Color.BLUE);
-        } else if (blocks[i][j].color == 1) {
-          g.setColor(Color.GREEN);
-        } else if (blocks[i][j].color == 2) {
-          g.setColor(Color.MAGENTA);
-        } else if (blocks[i][j].color == 3) {
-          g.setColor(Color.YELLOW);
-        } else if (blocks[i][j].color == 4) {
-          g.setColor(Color.ORANGE);
-        }
-        g.fillRect(
-          blocks[i][j].x,
-          blocks[i][j].y,
-          blocks[i][j].width,
-          blocks[i][j].height
-        );
       }
     }
   }
@@ -248,6 +260,12 @@ public class GamePanel extends JPanel implements Runnable {
             ball.y = paddle.y - 10;
             System.out.println("패들 벗어남");
             ball.isLive = false;
+            ball.count--;
+            if (ball.count <= 0) {
+              System.out.println("완전 끝");
+              isEnd = true;
+            }
+            //count 0이 되면 게임 종료 화면 띄우시.
             //공이 사라져야 함....
           }
         }
@@ -267,3 +285,4 @@ public class GamePanel extends JPanel implements Runnable {
     return ball.intersects(rect);
   }
 }
+// 공의 갯수를 3개로 3번 빠지면 끝나게 해보기....

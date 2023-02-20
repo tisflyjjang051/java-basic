@@ -11,6 +11,7 @@ public class Ball {
   public boolean isDown;
   public boolean isHide;
   public boolean isLive;
+  public int count;
 
   public Ball() {
     this.x = 300;
@@ -22,5 +23,8 @@ public class Ball {
     this.isDown = true;
     this.isHide = false;
     this.isLive = false;
+    this.isUp = true;
+    this.isDown = true;
+    this.count = 3;
   }
 }

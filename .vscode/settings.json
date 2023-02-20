@@ -1,3 +1,3 @@
 {
-  "java.project.sourcePaths": ["namjin", "ch12/src", "ch11/src", "ch11/images", "ch11", "DreamMS/src", "blockGame/src"]
+  "java.project.sourcePaths": ["namjin", "coin/src", "ch12/src", "ch11/src", "ch11/images", "ch11", "blockGame/src", "DreamMS/src", "playTheBlockGame/src"]
 }
