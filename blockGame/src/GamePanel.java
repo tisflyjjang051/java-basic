@@ -55,6 +55,24 @@ public class GamePanel extends JPanel implements Runnable {
                 ball.isRight = true;
               }
             }
+            if (e.getKeyCode() == KeyEvent.VK_R && isEnd) {
+              paddle = new Paddle();
+              ball = new Ball();
+              blocks = new Block[5][10];
+              for (int i = 0; i < 5; i++) {
+                for (int j = 0; j < 10; j++) {
+                  blocks[i][j] = new Block();
+                  blocks[i][j].x = (60 + GAP) * j;
+                  blocks[i][j].y = (30 + GAP) * i + 50;
+                  blocks[i][j].width = 60;
+                  blocks[i][j].height = 30;
+                  blocks[i][j].color = i;
+                }
+              }
+              score = 0;
+              ball.count = 3;
+              isEnd = false;
+            }
           }
 
           @Override
@@ -147,6 +165,7 @@ public class GamePanel extends JPanel implements Runnable {
               ball.isUp = false;
               ball.isDown = true;
               score += 10;
+              //ball.speed += 1;
             }
           } else if (ball.isDown) {
             if (
@@ -237,9 +256,9 @@ public class GamePanel extends JPanel implements Runnable {
       }
 
       if (ball.isUp) {
-        ball.y -= 10;
+        ball.y -= ball.speed;
       } else if (ball.isDown) {
-        ball.y += 10;
+        ball.y += ball.speed;
         // 여기다가 패들과의 충돌
         if (
           hitObject(
@@ -271,13 +290,13 @@ public class GamePanel extends JPanel implements Runnable {
         }
       }
       if (ball.isLeft) {
-        ball.x -= 10;
+        ball.x -= ball.speed;
       } else if (ball.isRight) {
-        ball.x += 10;
+        ball.x += ball.speed;
       }
     } else {
       ball.x = paddle.x + paddle.width / 2 - 5;
-      ball.y = paddle.y - 10;
+      ball.y = paddle.y - ball.speed;
     }
   }
 
