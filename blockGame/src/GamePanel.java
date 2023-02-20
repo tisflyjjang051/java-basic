@@ -45,20 +45,21 @@ public class GamePanel extends JPanel implements Runnable {
               paddle.isLeft = false;
               paddle.isRight = true;
             }
-          }
-
-          @Override
-          public void keyReleased(KeyEvent e) {
-            paddle.isLeft = false;
-            paddle.isRight = false;
-            if (e.getKeyCode() == KeyEvent.VK_SPACE) {
+            if (e.getKeyCode() == KeyEvent.VK_SPACE && !ball.isLive) {
               ball.isUp = true;
+              ball.isLive = true;
               if (Math.random() > 0.5) {
                 ball.isLeft = true;
               } else {
                 ball.isRight = true;
               }
             }
+          }
+
+          @Override
+          public void keyReleased(KeyEvent e) {
+            paddle.isLeft = false;
+            paddle.isRight = false;
           }
         }
       );
@@ -194,58 +195,71 @@ public class GamePanel extends JPanel implements Runnable {
   public void paddleMove() {
     if (paddle.isLeft) {
       paddle.x -= 10;
+      if (paddle.x <= 0) {
+        paddle.x = 0;
+      }
     } else if (paddle.isRight) {
       paddle.x += 10;
+      if (paddle.x + paddle.width >= 618) {
+        paddle.x = 618 - paddle.width;
+      }
     }
   }
 
   public void ballMove() {
-    if (ball.x >= 618 - 10) {
-      ball.isLeft = true;
-      ball.isRight = false;
-    } else if (ball.x <= 0) {
-      ball.isLeft = false;
-      ball.isRight = true;
-    }
-    if (ball.y >= 890) {
-      ball.isUp = true;
-      ball.isDown = false;
-    } else if (ball.y <= 0) {
-      ball.isUp = false;
-      ball.isDown = true;
-    }
-
-    if (ball.isUp) {
-      ball.y -= 10;
-    } else if (ball.isDown) {
-      ball.y += 10;
-      // 여기다가 패들과의 충돌
-      if (
-        hitObject(
-          new Rectangle(ball.x, ball.y, ball.width, ball.height),
-          new Rectangle(paddle.x, paddle.y, paddle.width, paddle.height)
-        )
-      ) {
+    //공의 isLive
+    if (ball.isLive) {
+      if (ball.x >= 618 - 10) {
+        ball.isLeft = true;
+        ball.isRight = false;
+      } else if (ball.x <= 0) {
+        ball.isLeft = false;
+        ball.isRight = true;
+      }
+      if (ball.y >= 890) {
         ball.isUp = true;
         ball.isDown = false;
-      } else {
-        if (ball.y > paddle.y + paddle.height) {
-          //ball.isHide = true;
-          ball.isLeft = false;
-          ball.isRight = false;
-          ball.isUp = false;
+      } else if (ball.y <= 0) {
+        ball.isUp = false;
+        ball.isDown = true;
+      }
+
+      if (ball.isUp) {
+        ball.y -= 10;
+      } else if (ball.isDown) {
+        ball.y += 10;
+        // 여기다가 패들과의 충돌
+        if (
+          hitObject(
+            new Rectangle(ball.x, ball.y, ball.width, ball.height),
+            new Rectangle(paddle.x, paddle.y, paddle.width, paddle.height)
+          )
+        ) {
+          ball.isUp = true;
           ball.isDown = false;
-          ball.x = paddle.x + paddle.width / 2 - 5;
-          ball.y = paddle.y - 10;
-          System.out.println("패들 벗어남");
-          //공이 사라져야 함....
+        } else {
+          if (ball.y > paddle.y + paddle.height) {
+            //ball.isHide = true;
+            ball.isLeft = false;
+            ball.isRight = false;
+            ball.isUp = false;
+            ball.isDown = false;
+            ball.x = paddle.x + paddle.width / 2 - 5;
+            ball.y = paddle.y - 10;
+            System.out.println("패들 벗어남");
+            ball.isLive = false;
+            //공이 사라져야 함....
+          }
         }
       }
-    }
-    if (ball.isLeft) {
-      ball.x -= 10;
-    } else if (ball.isRight) {
-      ball.x += 10;
+      if (ball.isLeft) {
+        ball.x -= 10;
+      } else if (ball.isRight) {
+        ball.x += 10;
+      }
+    } else {
+      ball.x = paddle.x + paddle.width / 2 - 5;
+      ball.y = paddle.y - 10;
     }
   }
 
