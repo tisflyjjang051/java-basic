@@ -9,6 +9,7 @@ public class Ball {
   public boolean isRight;
   public boolean isUp;
   public boolean isDown;
+  public boolean isHide;
 
   public Ball() {
     this.x = 300;
@@ -18,5 +19,6 @@ public class Ball {
     this.speed = 10;
     this.isLeft = true;
     this.isDown = true;
+    this.isHide = false;
   }
 }

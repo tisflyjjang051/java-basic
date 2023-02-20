@@ -51,6 +51,14 @@ public class GamePanel extends JPanel implements Runnable {
           public void keyReleased(KeyEvent e) {
             paddle.isLeft = false;
             paddle.isRight = false;
+            if (e.getKeyCode() == KeyEvent.VK_SPACE) {
+              ball.isUp = true;
+              if (Math.random() > 0.5) {
+                ball.isLeft = true;
+              } else {
+                ball.isRight = true;
+              }
+            }
           }
         }
       );
@@ -58,11 +66,15 @@ public class GamePanel extends JPanel implements Runnable {
     this.requestFocus();
   }
 
+  // 볼이 사라지면 패들 가운에 위치로 옮겨지고
+  // space를 입력받아서 누르면 다시 볼이 움직이기 시작....
   public void paintComponent(Graphics g) {
     super.paintComponent(g);
     g.setColor(Color.WHITE);
     g.fillRect(paddle.x, paddle.y, paddle.width, paddle.height);
-    g.fillOval(ball.x, ball.y, ball.width, ball.height);
+    if (!ball.isHide) {
+      g.fillOval(ball.x, ball.y, ball.width, ball.height);
+    }
     g.setFont(new Font("맑은 고닥", Font.BOLD, 18));
     g.drawString("SCORE : " + score, 500, 40);
     for (int i = 0; i < 5; i++) {
@@ -218,6 +230,13 @@ public class GamePanel extends JPanel implements Runnable {
         ball.isDown = false;
       } else {
         if (ball.y > paddle.y + paddle.height) {
+          //ball.isHide = true;
+          ball.isLeft = false;
+          ball.isRight = false;
+          ball.isUp = false;
+          ball.isDown = false;
+          ball.x = paddle.x + paddle.width / 2 - 5;
+          ball.y = paddle.y - 10;
           System.out.println("패들 벗어남");
           //공이 사라져야 함....
         }
