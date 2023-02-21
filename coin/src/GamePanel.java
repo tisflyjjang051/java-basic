@@ -12,6 +12,10 @@ public class GamePanel extends JPanel implements Runnable {
   public int marioY = 500;
   public int coinX = 300;
   public int coinY = 300;
+
+  public int coinTx = 300;
+  public int coinTy = 300;
+
   public int speedX = 10;
   public int speedY = 10;
   public Thread th;
@@ -73,12 +77,16 @@ public class GamePanel extends JPanel implements Runnable {
         e.printStackTrace();
       }
       repaint();
-      marioMOve();
+      marioMove();
       checkCoin();
     }
   }
 
-  public void marioMOve() {
+  // 시작화면 구현  s누르면 시작하게
+  // 점수 구현 score
+  // 너무 기다리지 말고 랜덤하게 위치이동
+
+  public void marioMove() {
     if (isLeft) {
       marioX -= speedX;
     }
@@ -97,9 +105,31 @@ public class GamePanel extends JPanel implements Runnable {
     double distX = coinX - marioX;
     double distY = coinY - marioY;
     double dist = Math.sqrt(distX * distX + distY * distY);
+    coinX += (coinTx - coinX) * 0.15;
+    coinY += (coinTy - coinY) * 0.15;
     if (dist < 32) {
-      coinX = (int) (Math.random() * 1280);
-      coinY = (int) (Math.random() * 720);
+      coinTx = (int) (Math.random() * 1280);
+      coinTy = (int) (Math.random() * 720);
+    }
+  }
+
+  class TimerThread implements Runnable {
+
+    private int count = 0;
+    private Thread th = new Thread(this);
+
+    @Override
+    public void run() {
+      while (true) {
+        try {
+          Thread.sleep(3000);
+        } catch (InterruptedException e) {
+          e.printStackTrace();
+        }
+        coinTx = (int) (Math.random() * 1280);
+        coinTy = (int) (Math.random() * 720);
+      }
     }
   }
 }
+// coin eat game
