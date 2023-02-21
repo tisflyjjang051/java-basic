@@ -9,6 +9,7 @@ class ClockLabel extends JLabel implements Runnable {
   ClockLabel() {
     this.setText("시간이 노출 되는 곳");
     this.setFont(new Font("맑은 고딕", Font.BOLD, 48));
+    this.setHorizontalAlignment(JLabel.CENTER);
     thread = new Thread(this);
     thread.start();
   }
