@@ -19,10 +19,16 @@ public class GamePanel extends JPanel implements Runnable {
   public int speedX = 10;
   public int speedY = 10;
   public Thread th;
+  public Thread th02;
+  public RandomThread randomThread = new RandomThread();
+  public int score = 0;
 
   public GamePanel() {
     th = new Thread(this);
     th.start();
+
+    th02 = new Thread(randomThread);
+    th02.start();
     this.setPreferredSize(new Dimension(1280, 720));
     this.addKeyListener(
         new KeyListener() {
@@ -66,6 +72,9 @@ public class GamePanel extends JPanel implements Runnable {
     g.drawImage(bg, 0, 0, null);
     g.drawImage(coin, coinX, coinY, null);
     g.drawImage(mario, marioX, marioY, null);
+    g.setColor(Color.WHITE);
+    g.setFont(new Font("맑은 고딕", Font.BOLD, 24));
+    g.drawString("SCORE : " + score, 100, 100);
   }
 
   @Override
@@ -86,6 +95,8 @@ public class GamePanel extends JPanel implements Runnable {
   // 점수 구현 score
   // 너무 기다리지 말고 랜덤하게 위치이동
 
+  // 확률을 정해서 arrow를 등장시키고 만약 그거랑 충돌하면 스피드가 올라가게....
+
   public void marioMove() {
     if (isLeft) {
       marioX -= speedX;
@@ -99,6 +110,18 @@ public class GamePanel extends JPanel implements Runnable {
     if (isDown) {
       marioY += speedY;
     }
+    if (marioX < -32) {
+      marioX = 1280;
+    }
+    if (marioX > 1280 + 32) {
+      marioX = -32;
+    }
+    if (marioY < -32) {
+      marioY = 720;
+    }
+    if (marioY > 720 + 32) {
+      marioY = -32;
+    }
   }
 
   public void checkCoin() {
@@ -110,24 +133,22 @@ public class GamePanel extends JPanel implements Runnable {
     if (dist < 32) {
       coinTx = (int) (Math.random() * 1280);
       coinTy = (int) (Math.random() * 720);
+      score++;
     }
   }
 
-  class TimerThread implements Runnable {
-
-    private int count = 0;
-    private Thread th = new Thread(this);
+  class RandomThread implements Runnable {
 
     @Override
     public void run() {
       while (true) {
-        try {
-          Thread.sleep(3000);
-        } catch (InterruptedException e) {
-          e.printStackTrace();
-        }
         coinTx = (int) (Math.random() * 1280);
         coinTy = (int) (Math.random() * 720);
+        try {
+          Thread.sleep(3000);
+        } catch (Exception e) {
+          e.printStackTrace();
+        }
       }
     }
   }
