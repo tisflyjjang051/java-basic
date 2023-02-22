@@ -4,10 +4,10 @@ import javax.swing.*;
 
 public class GamePanel extends JPanel implements Runnable {
 
-  Image bg = new ImageIcon("coin/images/bg.jpg").getImage();
-  Image coin = new ImageIcon("coin/images/dollar.png").getImage();
-  Image mario = new ImageIcon("coin/images/super-mario.png").getImage();
-  Image speedUp = new ImageIcon("coin/images/arrows.png").getImage();
+  Image bg = new ImageIcon("images/bg.jpg").getImage();
+  Image coin = new ImageIcon("images/dollar.png").getImage();
+  Image mario = new ImageIcon("images/super-mario.png").getImage();
+  Image speedUp = new ImageIcon("images/arrows.png").getImage();
   public boolean isLeft, isRight, isUp, isDown;
   public int marioX = 500;
   public int marioY = 500;
