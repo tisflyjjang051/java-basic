@@ -1,4 +1,5 @@
 import java.awt.*;
+import java.awt.event.*;
 import java.io.*;
 import java.net.*;
 import javax.swing.*;
@@ -19,6 +20,27 @@ public class ChatServer extends JFrame {
     Container contentPane = this.getContentPane();
     contentPane.setLayout(new BorderLayout());
     sender = new JTextField(40);
+
+    sender.addActionListener(
+      new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+          String msg = sender.getText();
+          try {
+            out.write(msg + "\r\n");
+            out.flush();
+
+            receiver.append("\r\n 서버 : " + msg);
+            int end = receiver.getText().length();
+            receiver.setCaretPosition(end);
+            sender.setText("");
+          } catch (IOException e1) {
+            e1.printStackTrace();
+          }
+        }
+      }
+    );
+
     receiver = new Receiver();
 
     contentPane.add(sender, BorderLayout.SOUTH);
